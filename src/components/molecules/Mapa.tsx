@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import iconoPunto from '../../assets/punto.png';
 
 interface Punto {
   long: number;
@@ -21,10 +16,10 @@ interface MapaProps {
 }
 
 const iconoPersonalizado = new L.Icon({
-  iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-red.png',
-  iconSize: [38, 95], // Tamaño del ícono
-  iconAnchor: [22, 94], // Punto del ícono que corresponderá a la ubicación del marcador
-  popupAnchor: [-3, -76], // Punto desde el cual se mostrará el popup
+  iconUrl: iconoPunto,
+  iconSize: [38, 38],
+  iconAnchor: [22, 38],
+  popupAnchor: [-3, -36],
 });
 
 const Mapa: React.FC<MapaProps> = ({ puntos }) => {
@@ -39,8 +34,8 @@ const Mapa: React.FC<MapaProps> = ({ puntos }) => {
       zoom={13}
       style={{ height: '100vh', width: '100vh' }}>
       <TileLayer
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright"></a> '
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
       <Polyline
         positions={puntos.map((punto) => [punto.lat, punto.long])}
