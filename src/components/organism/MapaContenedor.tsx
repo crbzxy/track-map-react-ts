@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Mapa from '../molecules/Mapa';
 import { ordenarPuntosPorDistancia } from '../../utils/geoUtils';
-
+//TODO:Modificar la fuente de datos 
 const timestampActual = Date.now(); // Este sería el valor a usar para todos
 
 const puntosIniciales =  [
@@ -43,10 +43,13 @@ const puntosIniciales =  [
     nombre: 'La Condesa',
   },
 ];
+//-----------------------------------------
+
 const MapaContenedor: React.FC = () => {
+  // Estados para ordenamiento o visualización
   const [puntos, setPuntos] = useState(puntosIniciales);
   const [ordenar, setOrdenar] = useState(false);
-
+//Efectos de visualización
   useEffect(() => {
     if (ordenar) {
       setPuntos(ordenarPuntosPorDistancia([...puntosIniciales]));
