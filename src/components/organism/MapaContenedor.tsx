@@ -1,10 +1,9 @@
-// src/components/MapaContenedor.tsx
 import React, { useState, useEffect } from 'react';
 import Mapa from '../molecules/Mapa';
 import { ordenarPuntosPorDistancia } from '../../utils/geoUtils';
-import { Grid, Button, Container } from '@mui/material';
-//TODO:Modificar la fuente de datos 
-const timestampActual = Date.now(); // Este sería el valor a usar para todos
+import { Grid, Button, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
+
+const timestampActual = Date.now();
 
 const puntosIniciales = [
   {
@@ -47,10 +46,9 @@ const puntosIniciales = [
 //-----------------------------------------
 
 const MapaContenedor: React.FC = () => {
-  // Estados para ordenamiento o visualización
   const [puntos, setPuntos] = useState(puntosIniciales);
   const [ordenar, setOrdenar] = useState(false);
-//Efectos de visualización
+
   useEffect(() => {
     if (ordenar) {
       setPuntos(ordenarPuntosPorDistancia([...puntosIniciales]));
@@ -60,35 +58,32 @@ const MapaContenedor: React.FC = () => {
   }, [ordenar]);
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        
-      }}>
-      <Grid container spacing={3} style={{ width: '100%' }}>
+    <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <Grid container spacing={3} style={{ width: '100%', marginTop: '20px' }}>
         <Grid item xs={12} md={6}>
           <Mapa puntos={puntos} />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          md={6}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Button
-            onClick={() => setOrdenar(!ordenar)}
-            variant='contained'
-            color='secondary'>
-            {ordenar
-              ? 'Mostrar Orden Original'
-              : 'Mostrar Ordenado por Distancia'}
-          </Button>
+        <Grid item xs={12} md={6} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {/* Contenedor para el título y el botón en la misma fila */}
+          <Grid container justifyContent="space-between" alignItems="center" style={{ width: '100%', marginBottom: '20px' }}>
+            <Grid item>
+              <Typography variant="h6" component="div">
+                Listado de Puntos
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Button onClick={() => setOrdenar(!ordenar)} variant="contained" color="secondary">
+                {ordenar ? 'Mostrar Orden Original' : 'Mostrar Ordenado por Distancia'}
+              </Button>
+            </Grid>
+          </Grid>
+          <List style={{ width: '100%', maxHeight: '70vh', overflow: 'auto' }}>
+            {puntos.map((punto, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={punto.nombre} secondary={`Latitud: ${punto.lat}, Longitud: ${punto.long}`} />
+              </ListItem>
+            ))}
+          </List>
         </Grid>
       </Grid>
     </Container>
