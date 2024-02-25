@@ -72,5 +72,5 @@ For a complete list of dependencies and their purposes, refer to `package.json`.
 
 This project was created by crbzxy, as a personal initiative to explore modern web development practices and geospatial data visualization. Contributions are welcome! Feel free to submit pull requests or open issues to discuss proposed changes or additions. Your feedback and contributions will help make this project even better.
 
-For any queries or discussions, you can contact me at [tu-email@example.com].
+For any queries or discussions, you can contact me at [hola@carlosboyzo.com].
 
