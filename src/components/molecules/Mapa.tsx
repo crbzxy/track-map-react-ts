@@ -21,7 +21,7 @@ const crearIconoPersonalizado = (orden: number) => L.divIcon({
            <span style="position: absolute; top: 33%; left: 50%; transform: translate(-50%, -50%); color: black; font-weight: bold; font-size:10px">${orden}</span>
          </div>`,
   iconSize: [38, 38],
-  iconAnchor: [19, 38],
+  iconAnchor: [19, 33],
   className: ''
 });
 
