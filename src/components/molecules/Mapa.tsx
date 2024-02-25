@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import React, { useEffect, memo } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import iconoPunto from '../../assets/punto.png';
@@ -15,11 +15,25 @@ interface MapaProps {
   puntos: Punto[];
 }
 
-const iconoPersonalizado = new L.Icon({
-  iconUrl: iconoPunto,
+const crearIconoPersonalizado = (orden: number) => L.divIcon({
+  html: `<div style="position: relative; text-align: center;">
+           <img src="${iconoPunto}" style="width: 38px; height: 38px;"/>
+           <span style="position: absolute; top: 33%; left: 50%; transform: translate(-50%, -50%); color: black; font-weight: bold; font-size:10px">${orden}</span>
+         </div>`,
   iconSize: [38, 38],
-  iconAnchor: [22, 38],
-  popupAnchor: [-3, -36],
+  iconAnchor: [19, 38],
+  className: ''
+});
+
+const AjustarVista = memo(({ puntos }: { puntos: Punto[] }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (puntos.length > 0) {
+      const grupo = new L.LatLngBounds(puntos.map(punto => [punto.lat, punto.long]));
+      map.fitBounds(grupo);
+    }
+  }, [puntos, map]);
+  return null;
 });
 
 const Mapa: React.FC<MapaProps> = ({ puntos }) => {
@@ -29,23 +43,18 @@ const Mapa: React.FC<MapaProps> = ({ puntos }) => {
   };
 
   return (
-    <MapContainer
-      center={[puntos[0].lat, puntos[0].long]}
-      zoom={13}
-      style={{ height: '100vh', width: '100vh' }}>
+    <MapContainer center={[puntos[0]?.lat ?? 0, puntos[0]?.long ?? 0]} zoom={13} style={{ height: '70vh' }}>
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
-      <Polyline
-        positions={puntos.map((punto) => [punto.lat, punto.long])}
-        pathOptions={estiloRuta}
-      />
-      {puntos.map((punto) => (
+      <Polyline positions={puntos.map(punto => [punto.lat, punto.long])} pathOptions={estiloRuta} />
+      {puntos.map((punto, index) => (
         <Marker
           key={`${punto.lat}-${punto.long}-${punto.timestamp}`}
           position={[punto.lat, punto.long]}
-          icon={iconoPersonalizado}>
+          icon={crearIconoPersonalizado(index + 1)}
+        >
           <Popup>
             <div className='popup-detalle'>
               <h4>{punto.nombre}</h4>
@@ -54,6 +63,7 @@ const Mapa: React.FC<MapaProps> = ({ puntos }) => {
           </Popup>
         </Marker>
       ))}
+      <AjustarVista puntos={puntos} />
     </MapContainer>
   );
 };
