@@ -4,15 +4,17 @@ import Navigation from './components/molecules/Navigation';
 import Home from './views/Home'; // Importa el componente Home
 import Login from './views/Login';
 import Cuentas from './views/Cuentas';
-import Container from '@mui/material/Container'; // Importa el componente Container de Material-UI
+import { Container} from '@mui/material'; 
 
 const AppContainer: React.FC = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <>
+       {/* Aplica estilos base para una apariencia consistente */}
       {/* Navegador con zIndex 1 */}
       <Navigation />
       {/* Contenedor de las vistas de las rutas con zIndex 0 */}
-      <Container maxWidth="md"> {/* Ajusta el ancho máximo según tus necesidades */}
+      <Container component="main">
+        {/* Ajusta el ancho máximo al máximo posible y proporciona margen en la parte superior */}
         <Routes>
           <Route path="/" element={<Home />} /> {/* Ruta para el componente Home */}
           <Route path="/login" element={<Login />} />
@@ -21,7 +23,7 @@ const AppContainer: React.FC = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Container>
-    </div>
+    </>
   );
 };
 

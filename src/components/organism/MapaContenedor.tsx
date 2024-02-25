@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Mapa from '../molecules/Mapa';
 import { ordenarPuntosPorDistancia } from '../../utils/geoUtils';
+import { Grid, Button, Container } from '@mui/material';
 //TODO:Modificar la fuente de datos 
 const timestampActual = Date.now(); // Este sería el valor a usar para todos
 
-const puntosIniciales =  [
+const puntosIniciales = [
   {
     lat: 19.432608,
     long: -99.133209,
@@ -59,12 +60,38 @@ const MapaContenedor: React.FC = () => {
   }, [ordenar]);
 
   return (
-    <div>
-      <button onClick={() => setOrdenar(!ordenar)}>
-        {ordenar ? 'Mostrar Orden Original' : 'Mostrar Ordenado por Distancia'}
-      </button>
-      <Mapa puntos={puntos} />
-    </div>
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        
+      }}>
+      <Grid container spacing={3} style={{ width: '100%' }}>
+        <Grid item xs={12} md={6}>
+          <Mapa puntos={puntos} />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Button
+            onClick={() => setOrdenar(!ordenar)}
+            variant='contained'
+            color='secondary'>
+            {ordenar
+              ? 'Mostrar Orden Original'
+              : 'Mostrar Ordenado por Distancia'}
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
